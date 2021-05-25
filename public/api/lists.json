@@ -1,0 +1,25 @@
+{
+    "success": true,
+    "data": {
+        "Lists": [
+            {
+                "id": 1122357760,
+                "name": "香辣鸡腿堡",
+                "praise_num":50,
+                "picture": "http://p0.meituan.net/wmproduct/c8b2bd6574b55f039e08dcba0c688ca9315387.png"
+            },
+            {
+                "id": 1123044300,
+                "name": "香辣鸡翅",
+                "praise_num":25,
+                "picture": "http://p0.meituan.net/wmproduct/269b715e2769408e3f520af5d5cd86e2331283.png"
+            },
+            {
+                "id": 3036419107,
+                "name": "红运热辣鸡排",
+                "praise_num":26,
+                "picture": "http://p1.meituan.net/wmproduct/e5d74e3c0e1ca037356523c937157b91291637.png"
+            }
+        ]
+    }
+}
