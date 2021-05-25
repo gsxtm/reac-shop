@@ -4,7 +4,7 @@ import { fromJS } from 'immutable';
 // immutable对象不可以改变
 const defaultState = fromJS({
     lists: [],
-    carList:[]
+    carList: []
 });
 const getShopListsData = (state, action) => {
     return state.merge({
@@ -17,8 +17,22 @@ const addCount = (state, action) => {
     let itemId = newState.lists.findIndex((item) => {
         return item.id === thisId
     })
+    let itemCarId = newState.carList.findIndex((item) => {
+        return item.id === thisId
+    })
+    let item = newState.lists.find((item) => {
+        return item.id === thisId
+    })
     newState.lists[itemId].count++;
-    return fromJS(newState)
+    if (itemCarId == "-1") {
+        newState.carList.push(item)
+    } else {
+        newState.carList[itemCarId].count++;
+    }
+    return state.merge({
+        'lists': fromJS(newState.lists),
+        'carList': fromJS(newState.carList)
+    });
 };
 const reduceCount = (state, action) => {
     var newState = JSON.parse(JSON.stringify(state));
@@ -26,16 +40,36 @@ const reduceCount = (state, action) => {
     let itemId = newState.lists.findIndex((item) => {
         return item.id === thisId
     })
-
+    let itemCarId = newState.carList.findIndex((item) => {
+        return item.id === thisId
+    })
+    let item = newState.lists.find((item) => {
+        return item.id === thisId
+    })
     newState.lists[itemId].count--;
-    return fromJS(newState)
+    if (itemCarId == "-1") {
+        newState.carList.push(item)
+    } else {
+        newState.carList[itemCarId].count--;
+        if (newState.carList[itemCarId].count==0) {
+            newState.carList.splice(itemCarId, 1)
+            console.log("123")
+        } 
+    }
+    return state.merge({
+        'lists': fromJS(newState.lists),
+        'carList': fromJS(newState.carList)
+    })
 };
 const emptyCount = (state, action) => {
     var newState = JSON.parse(JSON.stringify(state));
     newState.lists.forEach(element => {
-        return element.count=0;
+        return element.count = 0;
     });
-    return fromJS(newState)
+    return state.merge({
+        'lists': fromJS(newState.lists),
+        'carList': []
+    })
 };
 export default (state = defaultState, action) => {
     switch (action.type) {
@@ -45,8 +79,8 @@ export default (state = defaultState, action) => {
             return addCount(state, action);
         case actionTypes.REDUCE_COUNT:
             return reduceCount(state, action);
-            case actionTypes.EMPTY_COUNT:
-                return emptyCount(state, action);
+        case actionTypes.EMPTY_COUNT:
+            return emptyCount(state, action);
         default:
             return state;
     }

@@ -13,7 +13,7 @@ class ShopList extends Component {
         this.props.changeShopData();
     }
     render() {
-        const { lists } = this.props;
+        const { lists,carLists } = this.props;
 
         return (
             <>
@@ -44,14 +44,14 @@ class ShopList extends Component {
                                 )
                             })}
                         </ul>
-                        <div>num：{lists.reduce((res,item)=>{
+                        <div>num：{carLists.reduce((res,item)=>{
                             // console.log(res);
-                            console.log(item.get("praise_num"));
+                            // console.log(item.get("praise_num"));
                             return res+=item.get("praise_num")*item.get("count");
                         },0)}</div>
 
                         <div >
-                        {lists.map((item) => {
+                        {carLists.map((item) => {
                             if(item.get("count")!==0){
                                 return (
                                     <FoodItem key={item.get("id")} item={item} addCount={this.props.addCount.bind(this, item)} reduceCount={this.props.reduceCount.bind(this, item)}></FoodItem>
@@ -69,7 +69,8 @@ class ShopList extends Component {
     }
 }
 const mapStateToProps = (state) => ({
-    lists: state.shop.get("lists")
+    lists: state.shop.get("lists"),
+    carLists:state.shop.get("carList")
 })
 const mapDispatchToProps = (dispatch) => ({
     changeShopData() {
